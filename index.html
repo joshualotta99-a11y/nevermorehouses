@@ -226,7 +226,7 @@
                 role="application"
                 aria-label="Interactief AR scanvlak"
               >
-                <video class="camera-feed" autoplay muted playsinline></video>
+                <video class="camera-feed" autoplay muted playsinline draggable="false"></video>
                 <div class="camera-fallback">Camera nog niet actief</div>
                 <div class="ar-notice" id="arNotice">Start de camera en kijk langzaam om je heen.</div>
                 <div class="scan-line"></div>
@@ -239,10 +239,10 @@
                   rotation-per-second="35deg"
                   interaction-prompt="none"
                   disable-tap
+                  disable-zoom
+                  draggable="false"
                   shadow-intensity="0.8"
                   exposure="1.18"
-                  ar
-                  ar-modes="webxr scene-viewer quick-look"
                   aria-label="3D Noctis maan"
                 ></model-viewer>
                 <div class="moon-fallback" aria-hidden="true">☾</div>

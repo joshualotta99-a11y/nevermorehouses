@@ -120,7 +120,7 @@ const scanAim = {
   x: 50,
   y: 50,
 };
-const CLICK_HIT_RADIUS = 24;
+const CLICK_HIT_RADIUS = 46;
 let scanFound = false;
 let scanStarted = false;
 let moonReady = false;
@@ -135,6 +135,10 @@ let moonScreenPosition = {
 
 function clampNumber(value, min, max) {
   return Math.max(min, Math.min(max, value));
+}
+
+function shortestAngleDelta(current, origin) {
+  return ((current - origin + 540) % 360) - 180;
 }
 
 function setScannerMoonScreenPosition(x, y) {
@@ -158,18 +162,18 @@ function updateMoonScreenPosition() {
 
 function randomizeMoonPosition() {
   const side = Math.floor(Math.random() * 4);
-  const edge = Math.round(130 + Math.random() * 8);
-  const inner = Math.round(28 + Math.random() * 44);
+  const edge = Math.round(103 + Math.random() * 7);
+  const inner = Math.round(38 + Math.random() * 24);
 
   if (side === 0) {
-    sigilPosition.x = -edge + 100;
+    sigilPosition.x = 100 - edge;
     sigilPosition.y = inner;
   } else if (side === 1) {
     sigilPosition.x = edge;
     sigilPosition.y = inner;
   } else if (side === 2) {
     sigilPosition.x = inner;
-    sigilPosition.y = -edge + 100;
+    sigilPosition.y = 100 - edge;
   } else {
     sigilPosition.x = inner;
     sigilPosition.y = edge;
@@ -392,19 +396,28 @@ function handleDeviceOrientation(event) {
     return;
   }
 
+  const alpha = Number.isFinite(event.alpha) ? event.alpha : null;
   const gamma = Number.isFinite(event.gamma) ? event.gamma : 0;
   const beta = Number.isFinite(event.beta) ? event.beta : 0;
 
   if (!orientationOrigin) {
     orientationOrigin = {
+      alpha,
       gamma,
       beta,
     };
   }
 
-  const deltaX = clampNumber((gamma - orientationOrigin.gamma) * 2.2, -90, 90);
-  const deltaY = clampNumber((beta - orientationOrigin.beta) * 1.45, -90, 90);
-  setCameraView(50 + deltaX, 50 + deltaY, 50, 50);
+  const yawDelta =
+    alpha !== null && orientationOrigin.alpha !== null
+      ? shortestAngleDelta(alpha, orientationOrigin.alpha)
+      : gamma - orientationOrigin.gamma;
+  const pitchDelta = beta - orientationOrigin.beta;
+  const targetX = 50 + clampNumber(yawDelta * 1.35, -92, 92);
+  const targetY = 50 + clampNumber(pitchDelta * 1.05, -86, 86);
+  const smoothX = cameraView.x + (targetX - cameraView.x) * 0.28;
+  const smoothY = cameraView.y + (targetY - cameraView.y) * 0.24;
+  setCameraView(smoothX, smoothY, 50, 50);
 }
 
 function setCameraView(viewX, viewY, aimX, aimY) {
@@ -454,7 +467,7 @@ function updateSearchFeedback() {
 
   if (distanceToAim < CLICK_HIT_RADIUS) {
     distanceReadout.textContent = "Maan gevonden";
-    scanStatus.textContent = "Tik op de Noctis-maan om je vondst te bevestigen";
+    scanStatus.textContent = "Tik op of rond de Noctis-maan om je vondst te bevestigen";
     return;
   }
 
@@ -465,21 +478,6 @@ function updateSearchFeedback() {
     distanceReadout.textContent = "Dichtbij";
     scanStatus.textContent = "De Noctis-maan komt langs je beeld. Blijf rustig zoeken.";
   }
-}
-
-function updateScanner(event) {
-  if (!scanStarted || scanFound) {
-    return;
-  }
-
-  const bounds = scanner.getBoundingClientRect();
-  const pointerX = ((event.clientX - bounds.left) / bounds.width) * 100;
-  const pointerY = ((event.clientY - bounds.top) / bounds.height) * 100;
-  const x = Math.max(0, Math.min(100, pointerX));
-  const y = Math.max(0, Math.min(100, pointerY));
-  const viewX = 50 + (x - 50) * 1.82;
-  const viewY = 50 + (y - 50) * 1.82;
-  setCameraView(viewX, viewY, x, y);
 }
 
 function revealSigil() {
@@ -499,6 +497,17 @@ function revealSigil() {
     arNotice.textContent = "Je hebt de Noctis-maan gevonden.";
   }
   scanButton.textContent = "Bekijk Noctis-resultaat";
+}
+
+function isTapNearMoon(event) {
+  if (!moonReady || !scanner.classList.contains("moon-visible")) {
+    return false;
+  }
+
+  const bounds = scanner.getBoundingClientRect();
+  const tapX = ((event.clientX - bounds.left) / bounds.width) * 100;
+  const tapY = ((event.clientY - bounds.top) / bounds.height) * 100;
+  return Math.hypot(tapX - moonScreenPosition.x, tapY - moonScreenPosition.y) < CLICK_HIT_RADIUS + 18;
 }
 
 scanButton.addEventListener("click", async () => {
@@ -528,17 +537,21 @@ scanButton.addEventListener("click", async () => {
   scheduleNoctisMoonReveal();
 });
 
-scanner.addEventListener("pointermove", updateScanner);
 scanner.addEventListener("pointerdown", (event) => {
   if (!scanStarted) {
     scanButton.click();
+    return;
   }
-  if (event.target === hiddenSigil && moonReady && scanner.classList.contains("moon-visible")) {
-    event.preventDefault();
+  event.preventDefault();
+  const canConfirmMoon = moonReady && scanner.classList.contains("moon-visible");
+  if (canConfirmMoon && (event.target === hiddenSigil || isTapNearMoon(event))) {
     revealSigil();
     return;
   }
-  updateScanner(event);
+});
+
+scanner.addEventListener("dragstart", (event) => {
+  event.preventDefault();
 });
 
 hiddenSigil.addEventListener("click", () => {
