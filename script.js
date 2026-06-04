@@ -120,6 +120,7 @@ const scanAim = {
   x: 50,
   y: 50,
 };
+const CLICK_HIT_RADIUS = 24;
 let scanFound = false;
 let scanStarted = false;
 let moonReady = false;
@@ -443,7 +444,7 @@ function updateSearchFeedback() {
   signalMeter.style.width = `${strength}%`;
   scanner.classList.toggle("moon-visible", isVisible);
   scanner.classList.toggle("is-near", isVisible && distanceToCenter < 36);
-  scanner.classList.toggle("is-hot", isVisible && distanceToAim < 13);
+  scanner.classList.toggle("is-hot", isVisible && distanceToAim < CLICK_HIT_RADIUS);
 
   if (!isVisible) {
     distanceReadout.textContent = "Buiten beeld";
@@ -451,7 +452,7 @@ function updateSearchFeedback() {
     return;
   }
 
-  if (distanceToAim < 13) {
+  if (distanceToAim < CLICK_HIT_RADIUS) {
     distanceReadout.textContent = "Maan gevonden";
     scanStatus.textContent = "Tik op de Noctis-maan om je vondst te bevestigen";
     return;
@@ -532,11 +533,16 @@ scanner.addEventListener("pointerdown", (event) => {
   if (!scanStarted) {
     scanButton.click();
   }
+  if (event.target === hiddenSigil && moonReady && scanner.classList.contains("moon-visible")) {
+    event.preventDefault();
+    revealSigil();
+    return;
+  }
   updateScanner(event);
 });
 
 hiddenSigil.addEventListener("click", () => {
-  if (moonReady && scanner.classList.contains("is-hot")) {
+  if (moonReady && scanner.classList.contains("moon-visible")) {
     revealSigil();
   }
 });

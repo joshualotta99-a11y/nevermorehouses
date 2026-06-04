@@ -812,7 +812,6 @@ p {
   z-index: 0;
   object-fit: cover;
   opacity: 0;
-  transform: scaleX(-1);
   transition: opacity 220ms ease;
 }
 
@@ -933,6 +932,7 @@ p {
   width: clamp(132px, 42%, 190px);
   height: clamp(132px, 42%, 190px);
   opacity: 0;
+  user-select: none;
   pointer-events: none;
   filter: drop-shadow(0 0 28px rgba(200, 148, 61, 0.52));
   transform: translate(-50%, -50%) scale(0.62);
@@ -941,6 +941,17 @@ p {
 
 .noctis-moon-model {
   background: transparent;
+  touch-action: none;
+  --poster-color: transparent;
+  --progress-bar-color: transparent;
+  --progress-bar-height: 0;
+  --progress-mask: transparent;
+}
+
+.noctis-moon-model::part(default-ar-button),
+.noctis-moon-model::part(default-progress-bar),
+.noctis-moon-model::part(default-interaction-prompt) {
+  display: none;
 }
 
 .moon-fallback {
@@ -977,14 +988,15 @@ p {
   z-index: 6;
   display: none;
   place-items: center;
-  width: clamp(112px, 34%, 160px);
-  height: clamp(112px, 34%, 160px);
+  width: clamp(150px, 46%, 210px);
+  height: clamp(150px, 46%, 210px);
   border: 1px solid transparent;
   border-radius: 50%;
   color: rgba(200, 148, 61, 0);
   background: radial-gradient(circle, rgba(200, 148, 61, 0.08), transparent 68%);
   transform: translate(-50%, -50%);
   cursor: pointer;
+  touch-action: manipulation;
   font-family: Georgia, "Times New Roman", serif;
   font-size: 2.3rem;
   opacity: 0;
@@ -996,13 +1008,13 @@ p {
 
 .scanner.is-near .hidden-sigil {
   border-color: rgba(200, 148, 61, 0.45);
-  opacity: 0.36;
+  opacity: 0.26;
 }
 
 .scanner.is-hot .hidden-sigil,
 .scanner.is-found .hidden-sigil {
   color: var(--gold-light);
-  opacity: 0.78;
+  opacity: 0.38;
   box-shadow: 0 0 54px rgba(200, 148, 61, 0.42);
 }
 
