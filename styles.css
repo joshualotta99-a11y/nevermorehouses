@@ -794,7 +794,7 @@ p {
   overflow: hidden;
   border: 2px solid var(--gold);
   background:
-    radial-gradient(circle at 73% 36%, rgba(200, 148, 61, 0.16), transparent 7%),
+    radial-gradient(circle at var(--moon-x, 64%) var(--moon-y, 38%), rgba(200, 148, 61, 0.14), transparent 10%),
     linear-gradient(145deg, rgba(16, 22, 38, 0.95), rgba(7, 13, 25, 0.96));
   cursor: crosshair;
   touch-action: none;
@@ -883,6 +883,30 @@ p {
   opacity: 1;
 }
 
+.ar-notice {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  top: 16px;
+  z-index: 8;
+  padding: 10px 12px;
+  border: 1px solid rgba(200, 148, 61, 0.52);
+  color: var(--gold-light);
+  background: rgba(3, 12, 24, 0.72);
+  font-size: 0.88rem;
+  line-height: 1.45;
+  opacity: 0;
+  transform: translateY(-8px);
+  transition: opacity 220ms ease, transform 220ms ease;
+}
+
+.scanner.is-searching .ar-notice,
+.scanner.moon-ready .ar-notice,
+.scanner.is-found .ar-notice {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 .sigil {
   position: absolute;
   z-index: 2;
@@ -897,38 +921,89 @@ p {
   transform: translate(-50%, -50%) rotate(45deg);
   font-family: Georgia, "Times New Roman", serif;
   font-size: 4rem;
+  opacity: 0;
+}
+
+.noctis-moon-model,
+.moon-fallback {
+  position: absolute;
+  left: var(--moon-x, 64%);
+  top: var(--moon-y, 38%);
+  z-index: 5;
+  width: clamp(132px, 42%, 190px);
+  height: clamp(132px, 42%, 190px);
+  opacity: 0;
+  pointer-events: none;
+  filter: drop-shadow(0 0 28px rgba(200, 148, 61, 0.52));
+  transform: translate(-50%, -50%) scale(0.62);
+  transition: opacity 420ms ease, transform 520ms ease;
+}
+
+.noctis-moon-model {
+  background: transparent;
+}
+
+.moon-fallback {
+  display: grid;
+  place-items: center;
+  color: var(--gold-light);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(5rem, 18vw, 8.6rem);
+  text-shadow: 0 0 22px rgba(200, 148, 61, 0.72);
+}
+
+.scanner.has-model-viewer .moon-fallback {
+  display: none;
+}
+
+.scanner.moon-ready .noctis-moon-model,
+.scanner.moon-ready .moon-fallback,
+.scanner.is-found .noctis-moon-model,
+.scanner.is-found .moon-fallback {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+  animation: noctisMoonFloat 4.8s ease-in-out infinite;
+}
+
+.scanner.is-found .noctis-moon-model,
+.scanner.is-found .moon-fallback {
+  opacity: 0.35;
 }
 
 .hidden-sigil {
   position: absolute;
-  left: var(--sigil-x, 73%);
-  top: var(--sigil-y, 36%);
+  left: var(--moon-x, 64%);
+  top: var(--moon-y, 38%);
   z-index: 6;
-  display: grid;
+  display: none;
   place-items: center;
-  width: 74px;
-  height: 74px;
-  border: 1px solid rgba(200, 148, 61, 0.32);
+  width: clamp(112px, 34%, 160px);
+  height: clamp(112px, 34%, 160px);
+  border: 1px solid transparent;
   border-radius: 50%;
   color: rgba(200, 148, 61, 0);
-  background: radial-gradient(circle, rgba(200, 148, 61, 0.14), transparent 68%);
+  background: radial-gradient(circle, rgba(200, 148, 61, 0.08), transparent 68%);
   transform: translate(-50%, -50%);
   cursor: pointer;
   font-family: Georgia, "Times New Roman", serif;
   font-size: 2.3rem;
-  opacity: 0.08;
+  opacity: 0;
+}
+
+.scanner.moon-ready .hidden-sigil {
+  display: grid;
 }
 
 .scanner.is-near .hidden-sigil {
-  color: rgba(200, 148, 61, 0.34);
-  opacity: 0.48;
+  border-color: rgba(200, 148, 61, 0.45);
+  opacity: 0.36;
 }
 
 .scanner.is-hot .hidden-sigil,
 .scanner.is-found .hidden-sigil {
   color: var(--gold-light);
-  opacity: 1;
-  box-shadow: 0 0 54px rgba(200, 148, 61, 0.46);
+  opacity: 0.78;
+  box-shadow: 0 0 54px rgba(200, 148, 61, 0.42);
 }
 
 .scanner.is-found .sigil {
@@ -993,6 +1068,19 @@ p {
   bottom: 16px;
   z-index: 8;
   color: var(--muted);
+}
+
+@keyframes noctisMoonFloat {
+  0%,
+  100% {
+    margin-top: 0;
+    rotate: -2deg;
+  }
+
+  50% {
+    margin-top: -16px;
+    rotate: 4deg;
+  }
 }
 
 .scan-steps {

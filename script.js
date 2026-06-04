@@ -24,6 +24,11 @@ const houseMeaning = document.querySelector(".house-meaning");
 const houseMeaningSymbol = document.querySelector(".house-meaning-symbol");
 const houseMeaningName = document.querySelector(".house-meaning-name");
 const houseMeaningCopy = document.querySelector(".house-meaning-copy");
+const noctisOutcome = {
+  name: "Noctis",
+  symbol: "☾",
+  description: "Voor studenten die nieuwsgierig zijn en verborgen waarheden willen ontdekken.",
+};
 let selectedHouse = {
   name: "Nevermore",
   symbol: "N",
@@ -37,6 +42,8 @@ function showPanel(name) {
   });
 
   if (name === "scan") {
+    forceNoctisOutcome();
+    resetMoonScan();
     updateHouseOutcome();
   } else {
     stopCamera();
@@ -93,22 +100,101 @@ const scanButton = document.querySelector("#scanButton");
 const scanner = document.querySelector(".scanner");
 const cameraFeed = document.querySelector(".camera-feed");
 const scanStatus = document.querySelector(".scan-status");
+const arNotice = document.querySelector("#arNotice");
 const hiddenSigil = document.querySelector(".hidden-sigil");
 const distanceReadout = document.querySelector(".distance-readout");
 const signalMeter = document.querySelector(".signal-meter span");
 const revealSymbol = document.querySelector(".house-reveal-symbol");
 const revealName = document.querySelector(".house-reveal-name");
 const revealCopy = document.querySelector(".house-reveal-copy");
+const noctisModel = document.querySelector(".noctis-moon-model");
 const sigilPosition = {
-  x: 73,
-  y: 36,
+  x: 64,
+  y: 38,
 };
 let scanFound = false;
 let scanStarted = false;
+let moonReady = false;
+let moonRevealTimer = null;
 let cameraStream = null;
 
-scanner.style.setProperty("--sigil-x", `${sigilPosition.x}%`);
-scanner.style.setProperty("--sigil-y", `${sigilPosition.y}%`);
+function setScannerMoonPosition(x, y) {
+  sigilPosition.x = x;
+  sigilPosition.y = y;
+  scanner.style.setProperty("--moon-x", `${sigilPosition.x}%`);
+  scanner.style.setProperty("--moon-y", `${sigilPosition.y}%`);
+}
+
+function randomizeMoonPosition() {
+  const x = Math.round(24 + Math.random() * 52);
+  const y = Math.round(26 + Math.random() * 42);
+  setScannerMoonPosition(x, y);
+}
+
+function forceNoctisOutcome() {
+  selectedHouse = { ...noctisOutcome };
+  houses.forEach((item) => {
+    const isNoctis = item.dataset.house === noctisOutcome.name;
+    item.classList.toggle("is-active", isNoctis);
+    item.setAttribute("aria-pressed", String(isNoctis));
+    item.setAttribute("aria-expanded", String(isNoctis));
+  });
+  if (houseMeaning) {
+    houseMeaning.hidden = false;
+  }
+  if (houseSelect) {
+    houseSelect.value = noctisOutcome.name;
+  }
+}
+
+function resetMoonScan() {
+  clearTimeout(moonRevealTimer);
+  moonRevealTimer = null;
+  scanFound = false;
+  scanStarted = false;
+  moonReady = false;
+  scanner.classList.remove("is-searching", "is-near", "is-hot", "is-found", "moon-loading", "moon-ready");
+  scanner.style.setProperty("--signal-strength", "0%");
+  signalMeter.style.width = "0%";
+  distanceReadout.textContent = "Onbekend";
+  scanButton.textContent = "Start camera en scan";
+  scanStatus.textContent = "Klik op start, geef camera toestemming en zoek de Noctis-maan...";
+  if (arNotice) {
+    arNotice.textContent = "Start de camera en kijk langzaam om je heen.";
+  }
+}
+
+function scheduleNoctisMoonReveal() {
+  clearTimeout(moonRevealTimer);
+  moonReady = false;
+  scanner.classList.remove("moon-ready", "is-near", "is-hot", "is-found");
+  scanner.classList.add("moon-loading");
+  randomizeMoonPosition();
+  distanceReadout.textContent = "Maan laadt";
+  scanStatus.textContent = "Kijk rustig om je heen. De Noctis-maan verschijnt over 7 seconden...";
+  if (arNotice) {
+    arNotice.textContent = "Kijk langzaam om je heen. De 3D Noctis-maan wordt geladen...";
+  }
+
+  moonRevealTimer = setTimeout(() => {
+    moonReady = true;
+    scanner.classList.remove("moon-loading");
+    scanner.classList.add("moon-ready");
+    distanceReadout.textContent = "Maan geladen";
+    scanStatus.textContent = "De Noctis-maan is in je omgeving geladen. Zoek het gouden licht en tik erop.";
+    if (arNotice) {
+      arNotice.textContent = "De Noctis-maan is ergens in beeld geladen. Kijk om je heen en tik wanneer je haar ziet.";
+    }
+  }, 7000);
+}
+
+setScannerMoonPosition(sigilPosition.x, sigilPosition.y);
+
+if (window.customElements?.whenDefined && noctisModel) {
+  window.customElements.whenDefined("model-viewer").then(() => {
+    scanner.classList.add("has-model-viewer");
+  });
+}
 
 function updateHouseOutcome() {
   if (houseDetailSymbol) {
@@ -132,10 +218,10 @@ function updateHouseOutcome() {
   if (houseMeaningCopy) {
     houseMeaningCopy.textContent = selectedHouse.description;
   }
-  hiddenSigil.textContent = selectedHouse.symbol;
-  revealSymbol.textContent = selectedHouse.symbol;
-  revealName.textContent = selectedHouse.name;
-  revealCopy.textContent = selectedHouse.description;
+  hiddenSigil.textContent = noctisOutcome.symbol;
+  revealSymbol.textContent = noctisOutcome.symbol;
+  revealName.textContent = noctisOutcome.name;
+  revealCopy.textContent = noctisOutcome.description;
   if (resultCrest) {
     resultCrest.textContent = selectedHouse.symbol;
   }
@@ -187,7 +273,10 @@ async function startCamera() {
     cameraFeed.playsInline = true;
     await cameraFeed.play();
     scanner.classList.add("has-camera");
-    scanStatus.textContent = "Camera actief. Beweeg door het beeld en zoek het zegel";
+    scanStatus.textContent = "Camera actief. Kijk langzaam om je heen tot de Noctis-maan verschijnt";
+    if (arNotice) {
+      arNotice.textContent = "Camera actief. Blijf rondkijken: de 3D Noctis-maan laadt nu in.";
+    }
     return true;
   } catch (error) {
     const cameraMessages = {
@@ -209,11 +298,19 @@ function stopCamera() {
   cameraStream.getTracks().forEach((track) => track.stop());
   cameraStream = null;
   cameraFeed.srcObject = null;
-  scanner.classList.remove("has-camera");
+  clearTimeout(moonRevealTimer);
+  moonReady = false;
+  scanner.classList.remove("has-camera", "moon-loading", "moon-ready", "is-near", "is-hot");
 }
 
 function updateScanner(event) {
   if (!scanStarted || scanFound) {
+    return;
+  }
+
+  if (!moonReady) {
+    distanceReadout.textContent = "Maan laadt";
+    scanStatus.textContent = "De Noctis-maan wordt nog geladen. Kijk alvast rustig om je heen.";
     return;
   }
 
@@ -234,33 +331,41 @@ function updateScanner(event) {
   scanner.classList.toggle("is-hot", distance < 10);
 
   if (distance < 7) {
-    distanceReadout.textContent = "Zegel gevonden";
-    scanStatus.textContent = "Klik op het opgelichte zegel";
+    distanceReadout.textContent = "Maan gevonden";
+    scanStatus.textContent = "Tik op de Noctis-maan om je vondst te bevestigen";
     scanner.classList.add("is-hot");
     return;
   }
 
   if (distance < 10) {
     distanceReadout.textContent = "Heel dichtbij";
-    scanStatus.textContent = "Het zegel gloeit bijna zichtbaar";
+    scanStatus.textContent = "De Noctis-maan gloeit vlakbij";
   } else if (distance < 22) {
     distanceReadout.textContent = "Dichtbij";
-    scanStatus.textContent = "De scanner vangt goud licht op";
+    scanStatus.textContent = "De scanner vangt goud maanlicht op";
   } else {
     distanceReadout.textContent = "Nog zoeken";
-    scanStatus.textContent = "Beweeg langzaam over het steenwerk";
+    scanStatus.textContent = "Kijk verder om je heen en volg het gouden licht";
   }
 }
 
 function revealSigil() {
+  forceNoctisOutcome();
+  updateHouseOutcome();
+  clearTimeout(moonRevealTimer);
+  moonReady = true;
   scanFound = true;
   scanner.classList.add("is-found", "is-hot");
-  scanner.classList.remove("is-searching");
+  scanner.classList.remove("is-searching", "moon-loading");
+  scanner.classList.add("moon-ready");
   scanner.style.setProperty("--signal-strength", "100%");
   signalMeter.style.width = "100%";
-  distanceReadout.textContent = "Zegel gevonden";
-  scanStatus.textContent = `Verborgen symbool gevonden: ${selectedHouse.name}`;
-  scanButton.textContent = "Bekijk resultaat";
+  distanceReadout.textContent = "Noctis gevonden";
+  scanStatus.textContent = "Noctis-maan gevonden. Jij komt in aanmerking voor huis Noctis.";
+  if (arNotice) {
+    arNotice.textContent = "Je hebt de Noctis-maan gevonden.";
+  }
+  scanButton.textContent = "Bekijk Noctis-resultaat";
 }
 
 scanButton.addEventListener("click", async () => {
@@ -270,16 +375,22 @@ scanButton.addEventListener("click", async () => {
   }
 
   scanStarted = true;
+  scanFound = false;
+  moonReady = false;
+  forceNoctisOutcome();
   updateHouseOutcome();
-  scanner.classList.add("is-searching");
-  scanButton.textContent = "Zoek het zegel";
-  distanceReadout.textContent = "Nog zoeken";
+  scanner.classList.add("is-searching", "moon-loading");
+  scanner.classList.remove("moon-ready", "is-found", "is-hot", "is-near");
+  scanButton.textContent = "Zoek de maan";
+  distanceReadout.textContent = "Camera starten";
   scanStatus.textContent = "Camera wordt gestart...";
   const cameraActive = await startCamera();
   if (!cameraActive) {
-    scanner.classList.remove("is-searching");
+    scanner.classList.remove("is-searching", "moon-loading");
     scanButton.textContent = "Camera opnieuw proberen";
+    return;
   }
+  scheduleNoctisMoonReveal();
 });
 
 scanner.addEventListener("pointermove", updateScanner);
@@ -291,7 +402,7 @@ scanner.addEventListener("pointerdown", (event) => {
 });
 
 hiddenSigil.addEventListener("click", () => {
-  if (scanner.classList.contains("is-hot")) {
+  if (moonReady && scanner.classList.contains("is-hot")) {
     revealSigil();
   }
 });

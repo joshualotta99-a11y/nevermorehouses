@@ -4,8 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Nevermore Academy | Toelatingsroute</title>
-    <link rel="stylesheet" href="styles.css?v=ar-camera-live" />
-    <script defer src="script.js?v=back-result-fix"></script>
+    <link rel="stylesheet" href="styles.css?v=ar-noctis-moon" />
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+    <script defer src="script.js?v=ar-noctis-moon"></script>
   </head>
   <body>
     <header class="academy-header">
@@ -217,7 +218,7 @@
               <button class="back-link next-step" data-next="intro">← Terug naar toelatingsroute</button>
               <h3>AR-scan activeren</h3>
               <div class="rule centered"></div>
-              <p>Richt je camera op het symbool. Wat verborgen blijft, laat zich misschien nu zien.</p>
+              <p>Richt je camera om je heen. Alleen de Noctis-maan laat zich in deze AR-route vinden.</p>
               <div
                 class="scanner"
                 id="scanner"
@@ -227,21 +228,36 @@
               >
                 <video class="camera-feed" autoplay muted playsinline></video>
                 <div class="camera-fallback">Camera nog niet actief</div>
+                <div class="ar-notice" id="arNotice">Start de camera en kijk langzaam om je heen.</div>
                 <div class="scan-line"></div>
                 <div class="scan-lens" aria-hidden="true"></div>
-                <div class="sigil" aria-hidden="true">N</div>
-                <button class="hidden-sigil" type="button" aria-label="Verborgen zegel activeren">N</button>
+                <div class="sigil" aria-hidden="true">☾</div>
+                <model-viewer
+                  class="noctis-moon-model"
+                  src="assets/models/noctis-moon.glb"
+                  camera-controls
+                  auto-rotate
+                  rotation-per-second="35deg"
+                  interaction-prompt="none"
+                  shadow-intensity="0.8"
+                  exposure="1.18"
+                  ar
+                  ar-modes="webxr scene-viewer quick-look"
+                  aria-label="3D Noctis maan"
+                ></model-viewer>
+                <div class="moon-fallback" aria-hidden="true">☾</div>
+                <button class="hidden-sigil" type="button" aria-label="Noctis-maan gevonden">☾</button>
                 <div class="house-reveal">
-                  <span class="house-reveal-symbol">N</span>
-                  <strong class="house-reveal-name">Nevermore</strong>
-                  <small class="house-reveal-copy">Waar stilte harder spreekt.</small>
+                  <span class="house-reveal-symbol">☾</span>
+                  <strong class="house-reveal-name">Noctis</strong>
+                  <small class="house-reveal-copy">Voor studenten die verborgen waarheden willen ontdekken.</small>
                 </div>
-                <span class="scan-status">Klik op start, geef camera toestemming en zoek het zegel...</span>
+                <span class="scan-status">Klik op start, geef camera toestemming en zoek de Noctis-maan...</span>
               </div>
               <ol class="scan-steps">
                 <li>Geef camera toestemming</li>
-                <li>Zoek langzaam tot het zegel oplicht</li>
-                <li>Ontdek voor welk huis jij in aanmerking komt</li>
+                <li>Kijk rond terwijl de 3D-maan inlaadt</li>
+                <li>Vind de Noctis-maan en tik erop</li>
               </ol>
               <div class="scan-dashboard" aria-label="Scanstatus">
                 <div>
