@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="nl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nevermore Academy | Reclamefilm</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="reclame.css" />
+    <script defer src="reclame.js"></script>
+  </head>
+  <body class="promo-body">
+    <header class="academy-header">
+      <a class="brand" href="index.html#home" aria-label="Nevermore Academy homepage">
+        <span class="crest">N</span>
+        <span class="brand-text">Nevermore<br />Academy</span>
+      </a>
+      <nav class="nav" aria-label="Hoofdnavigatie">
+        <a href="index.html#home">Academie</a>
+        <a href="index.html#gids">Over ons</a>
+        <a href="index.html#huizen">Gids</a>
+        <a href="index.html#route">Toelating</a>
+        <a href="index.html#aanmelden">Contact</a>
+      </nav>
+    </header>
+
+    <main class="promo-page page-frame">
+      <section class="promo-intro">
+        <p class="eyebrow">Reclamefilm</p>
+        <h1>De beste ingang naar Nevermore Academy</h1>
+        <div class="rule"></div>
+        <p>
+          Een korte promotie die laat zien waarom studenten deze site willen gebruiken:
+          sfeer, keuze, AR en een toelatingsroute die echt voelt als een ontdekking.
+        </p>
+      </section>
+
+      <section class="promo-stage" aria-label="Reclamefilm Nevermore Academy">
+        <div class="promo-canvas-wrap">
+          <canvas id="promoCanvas" width="1280" height="720">
+            Je browser ondersteunt deze reclamefilm niet.
+          </canvas>
+        </div>
+        <div class="promo-controls">
+          <button class="button primary" id="playPromo" type="button">Speel reclame af</button>
+          <button class="button ghost" id="recordPromo" type="button">Maak videobestand</button>
+          <a class="button ghost promo-download" id="downloadPromo" href="#" download="nevermore-academy-reclame.webm" hidden>
+            Download reclamevideo
+          </a>
+          <a class="button ghost" href="index.html#home">Terug naar website</a>
+        </div>
+        <p class="promo-status" id="promoStatus" aria-live="polite">
+          Klaar om af te spelen.
+        </p>
+        <textarea id="promoDataStore" hidden aria-hidden="true"></textarea>
+      </section>
+
+      <section class="saved-video">
+        <p class="eyebrow">Opgeslagen video</p>
+        <h2>Reclamevideo klaar voor gebruik</h2>
+        <video controls preload="metadata" poster="preview.png">
+          <source src="nevermore-academy-reclame.webm" type="video/webm" />
+        </video>
+        <a class="button primary" href="nevermore-academy-reclame.webm" target="_blank">Open reclamevideo</a>
+      </section>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,111 @@
+.promo-body {
+  min-height: 100vh;
+}
+
+.promo-page {
+  padding: clamp(38px, 5vw, 70px) 0 clamp(56px, 7vw, 92px);
+}
+
+.promo-intro {
+  max-width: 980px;
+  margin-bottom: clamp(28px, 4vw, 46px);
+}
+
+.promo-intro h1 {
+  max-width: 1120px;
+  font-size: clamp(3.6rem, 6vw, 6.6rem);
+}
+
+.promo-intro p:not(.eyebrow) {
+  max-width: 760px;
+  color: var(--cream);
+  font-size: clamp(1rem, 1.3vw, 1.25rem);
+}
+
+.promo-stage {
+  border: 1px solid var(--line);
+  padding: clamp(16px, 2vw, 28px);
+  background:
+    radial-gradient(circle at 30% 8%, rgba(68, 31, 89, 0.28), transparent 30rem),
+    linear-gradient(135deg, rgba(7, 21, 38, 0.98), rgba(2, 8, 20, 0.98));
+}
+
+.promo-canvas-wrap {
+  position: relative;
+  border: 1px solid var(--line);
+  background: #020814;
+  overflow: hidden;
+}
+
+.promo-canvas-wrap::before {
+  content: "";
+  position: absolute;
+  inset: 12px;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(var(--gold), var(--gold)) left top / 54px 1px no-repeat,
+    linear-gradient(var(--gold), var(--gold)) left top / 1px 54px no-repeat,
+    linear-gradient(var(--gold), var(--gold)) right top / 54px 1px no-repeat,
+    linear-gradient(var(--gold), var(--gold)) right top / 1px 54px no-repeat,
+    linear-gradient(var(--gold), var(--gold)) left bottom / 54px 1px no-repeat,
+    linear-gradient(var(--gold), var(--gold)) left bottom / 1px 54px no-repeat,
+    linear-gradient(var(--gold), var(--gold)) right bottom / 54px 1px no-repeat,
+    linear-gradient(var(--gold), var(--gold)) right bottom / 1px 54px no-repeat;
+  opacity: 0.7;
+}
+
+#promoCanvas {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+}
+
+.promo-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.promo-controls .button {
+  width: auto;
+}
+
+.promo-status {
+  margin: 14px 0 0;
+  color: var(--muted);
+}
+
+.promo-download:not([hidden]) {
+  display: inline-flex;
+}
+
+.saved-video {
+  margin-top: clamp(28px, 4vw, 46px);
+  border: 1px solid var(--line);
+  padding: clamp(20px, 3vw, 34px);
+  background:
+    radial-gradient(circle at 70% 0%, rgba(68, 31, 89, 0.24), transparent 28rem),
+    rgba(3, 12, 24, 0.9);
+}
+
+.saved-video h2 {
+  margin-bottom: 20px;
+  font-size: clamp(2.2rem, 4vw, 4.3rem);
+}
+
+.saved-video video {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  margin-bottom: 20px;
+  border: 1px solid var(--line);
+  background: #020814;
+}
+
+@media (max-width: 680px) {
+  .promo-controls .button {
+    width: 100%;
+  }
+}

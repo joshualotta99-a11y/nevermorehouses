@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="nl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nevermore Academy | Toelatingsroute</title>
+    <link rel="stylesheet" href="styles.css?v=ar-camera-live" />
+    <script defer src="script.js?v=back-result-fix"></script>
+  </head>
+  <body>
+    <header class="academy-header">
+      <a class="brand" href="#home" aria-label="Nevermore Academy homepage">
+        <span class="crest">N</span>
+        <span class="brand-text">Nevermore<br />Academy</span>
+      </a>
+      <nav class="nav" aria-label="Hoofdnavigatie">
+        <a href="#home">Academie</a>
+        <a href="#gids">Over ons</a>
+        <a href="#huizen">Gids</a>
+        <a href="#route">Toelating</a>
+        <a href="#aanmelden">Contact</a>
+      </nav>
+    </header>
+
+    <main>
+      <section id="home" class="hero page-frame">
+        <div class="hero-copy">
+          <p class="eyebrow">Outcasts. Misfits. Monsters.</p>
+          <h1>Welkom bij Nevermore Academy</h1>
+          <div class="rule"></div>
+          <p>
+            Achter deze poorten sluimert meer dan je denkt. Oude gangen. Zwijgende muren.
+            Iets wacht tot jij het durft te vinden.
+          </p>
+          <div class="actions">
+            <a class="button primary" href="#academie-gids">Ontdek Nevermore</a>
+            <a class="button ghost" href="#gids-kaarten">Open de gids</a>
+          </div>
+        </div>
+        <figure class="hero-art">
+          <img src="assets/ref-home-gate.png" alt="Poort van Nevermore Academy bij maanlicht" />
+        </figure>
+        <div class="hero-cards" id="gids-kaarten">
+          <a class="image-card" href="#gids" aria-label="Lees meer over Nevermore">
+            <img src="assets/ref-home-over-card.png" alt="Over Nevermore kaart" />
+          </a>
+          <a class="image-card" href="#gids" aria-label="Bekijk de academiegids">
+            <img src="assets/ref-home-guide-card.png" alt="Academiegids kaart" />
+          </a>
+        </div>
+      </section>
+
+      <section id="gids" class="about page-frame">
+        <div class="about-intro">
+          <div>
+            <p class="eyebrow">Over Nevermore</p>
+            <h2>Over Nevermore</h2>
+            <p>Nevermore is geen gewone school. Achter elke gang wacht iets dat zich niet meteen laat zien.</p>
+            <div class="rule"></div>
+          </div>
+          <img src="assets/ref-about-gate.png" alt="Nevermore Academy achter de poort" />
+        </div>
+
+        <div class="about-grid" id="academie-gids">
+          <img class="wide-illustration" src="assets/ref-about-small.png" alt="Nevermore campus in de nacht" />
+          <a class="ornate-card about-link-card" href="geschiedenis.html">
+            <span class="round-icon">N</span>
+            <h3>Geschiedenis</h3>
+            <p>Graaf dieper. Niet elk verleden wil gevonden worden.</p>
+            <span class="mini-button">Lees verder</span>
+          </a>
+          <a class="ornate-card about-link-card" href="campus.html">
+            <span class="round-icon">☾</span>
+            <h3>Campus</h3>
+            <p>Verken stille plekken waar meer wordt gezien dan gezegd.</p>
+            <span class="mini-button">Lees verder</span>
+          </a>
+          <a class="ornate-card about-link-card" href="waarden.html">
+            <span class="round-icon">◆</span>
+            <h3>Waarden</h3>
+            <p>Hier tellen nieuwsgierigheid, lef en het durven kijken.</p>
+            <span class="mini-button">Lees verder</span>
+          </a>
+        </div>
+
+        <div class="campus-band">
+          <div>
+            <h3>Een plek voor buitengewone geesten</h3>
+            <div class="rule small"></div>
+            <p>Sommige antwoorden fluisteren. Sommige gangen bewaren geheimen. Soms kiest Nevermore jou.</p>
+            <a class="button ghost" href="#huizen">Meer ontdekken</a>
+          </div>
+          <img src="assets/ref-about-interior.png" alt="Interieur van Nevermore Academy" />
+        </div>
+      </section>
+
+      <section id="huizen" class="houses page-frame">
+        <div class="section-title">
+          <h2>Studentenhuizen</h2>
+          <div class="rule centered"></div>
+          <p>Elk huis draagt zijn eigen geheim. Misschien hoort een ervan al bij jou.</p>
+        </div>
+
+        <div class="house-grid" aria-label="Studentenhuizen">
+          <button class="house house-nevermore" data-house="Nevermore" data-symbol="N" data-description="Voor studenten die stilte, diepgang en mysterie zoeken." aria-pressed="false" aria-expanded="false">
+            <span class="house-art"><img src="assets/sharp-houses/house-nevermore-sharp.jpg" alt="" /></span>
+            <span class="house-token">N</span>
+            <span class="house-copy">
+              <span class="house-name">Nevermore</span>
+              <span class="house-motto">Stilte. Diepgang. Mysterie.</span>
+              <span class="house-divider"></span>
+              <span class="house-secret">Waar stilte harder spreekt.</span>
+              <span class="house-button">Bekijk huis</span>
+            </span>
+            <span class="sr-only">Kies huis Nevermore: voor studenten die stilte, diepgang en mysterie zoeken.</span>
+          </button>
+          <button class="house house-noctis" data-house="Noctis" data-symbol="☾" data-description="Voor studenten die nieuwsgierig zijn en verborgen waarheden willen ontdekken." aria-pressed="false" aria-expanded="false">
+            <span class="house-art"><img src="assets/sharp-houses/house-noctis-sharp.jpg" alt="" /></span>
+            <span class="house-token">☾</span>
+            <span class="house-copy">
+              <span class="house-name">Noctis</span>
+              <span class="house-motto">Nacht. Vragen. Waarheid.</span>
+              <span class="house-divider"></span>
+              <span class="house-secret">Waar de nacht oude waarheden bewaart.</span>
+              <span class="house-button">Bekijk huis</span>
+            </span>
+            <span class="sr-only">Kies huis Noctis: voor studenten die nieuwsgierig zijn en verborgen waarheden willen ontdekken.</span>
+          </button>
+          <button class="house house-umbra" data-house="Umbra" data-symbol="◆" data-description="Voor studenten die goed observeren en verder kijken dan wat zichtbaar is." aria-pressed="false" aria-expanded="false">
+            <span class="house-art"><img src="assets/sharp-houses/house-umbra-sharp.jpg" alt="" /></span>
+            <span class="house-token">◆</span>
+            <span class="house-copy">
+              <span class="house-name">Umbra</span>
+              <span class="house-motto">Schaduw. Focus. Inzicht.</span>
+              <span class="house-divider"></span>
+              <span class="house-secret">Waar schaduwen dichter bij de waarheid komen.</span>
+              <span class="house-button">Bekijk huis</span>
+            </span>
+            <span class="sr-only">Kies huis Umbra: voor studenten die goed observeren en verder kijken dan wat zichtbaar is.</span>
+          </button>
+          <button class="house house-ignis" data-house="Ignis" data-symbol="✦" data-description="Voor studenten met ambitie, energie en durf." aria-pressed="false" aria-expanded="false">
+            <span class="house-art"><img src="assets/sharp-houses/house-ignis-sharp.jpg" alt="" /></span>
+            <span class="house-token">✦</span>
+            <span class="house-copy">
+              <span class="house-name">Ignis</span>
+              <span class="house-motto">Vuur. Lef. Beweging.</span>
+              <span class="house-divider"></span>
+              <span class="house-secret">Waar vonken iets wakker maken.</span>
+              <span class="house-button">Bekijk huis</span>
+            </span>
+            <span class="sr-only">Kies huis Ignis: voor studenten met ambitie, energie en durf.</span>
+          </button>
+        </div>
+
+        <article class="house-meaning ornate-box" aria-live="polite" hidden>
+          <span class="round-icon house-meaning-symbol">N</span>
+          <div>
+            <p class="eyebrow">Betekenis van het huis</p>
+            <h3 class="house-meaning-name">Nevermore</h3>
+            <p class="house-meaning-copy">Voor studenten die stilte, diepgang en mysterie zoeken.</p>
+          </div>
+          <a class="button ghost" href="#route">Verder naar toelatingsroute</a>
+        </article>
+
+        <div class="next-band">
+          <span class="crest small-crest">N</span>
+          <div>
+            <h3>Klaar voor de volgende stap?</h3>
+            <p>De huizen kijken terug. Maar eerst moet jij laten zien wie je echt bent. Durf je verder te gaan?</p>
+          </div>
+          <a class="button primary" href="#route">Mysterieuze toelatingsroute starten</a>
+        </div>
+      </section>
+
+      <section id="route" class="admission page-frame">
+        <div class="section-title">
+          <p class="eyebrow">Toelating</p>
+          <h2>Mysterieuze toelatingsroute starten</h2>
+          <p>Klaar om dieper te gaan? Volg het spoor. Ontcijfer de tekens.</p>
+        </div>
+
+        <div class="route-progress" aria-label="Toelatingsstappen">
+          <button class="step is-active" data-panel="intro"><span></span>Start</button>
+          <button class="step" data-panel="scan"><span></span>AR beschikbaar?</button>
+          <button class="step" data-panel="hint"><span></span>Aanwijzing volgen</button>
+          <button class="step" data-panel="result"><span></span>Resultaat</button>
+        </div>
+
+        <div class="route-panel is-active" id="panel-intro">
+          <div class="admission-layout">
+            <img class="route-image" src="assets/ref-route-gate.png" alt="Nevermore poort met verborgen zegel" />
+            <article class="route-copy ornate-box">
+              <h3>Begin de route met AR of zonder.</h3>
+              <p>
+                Ontgrendel jouw Nevermore-huis door verborgen tekens te vinden die door de campus zijn verspreid.
+              </p>
+              <p>
+                Scan het verborgen symbool om aanwijzingen te onthullen die alleen voor jou bestemd zijn.
+              </p>
+              <div class="actions">
+                <button class="button primary next-step" data-next="scan">AR-scan activeren</button>
+                <button class="button ghost next-step" data-next="hint">Verder zonder AR</button>
+              </div>
+            </article>
+          </div>
+          <div class="tip-band">
+            <span class="round-icon">☼</span>
+            <p>Wie goed kijkt, ziet meer dan de rest.</p>
+            <button class="button ghost next-step" data-next="scan">Volgende stap</button>
+          </div>
+        </div>
+
+        <div class="route-panel" id="panel-scan">
+          <div class="scan-page">
+            <img class="scan-side left" src="assets/ref-scan-left.png" alt="" aria-hidden="true" />
+            <div class="scan-center">
+              <button class="back-link next-step" data-next="intro">← Terug naar toelatingsroute</button>
+              <h3>AR-scan activeren</h3>
+              <div class="rule centered"></div>
+              <p>Richt je camera op het symbool. Wat verborgen blijft, laat zich misschien nu zien.</p>
+              <div
+                class="scanner"
+                id="scanner"
+                aria-live="polite"
+                role="application"
+                aria-label="Interactief AR scanvlak"
+              >
+                <video class="camera-feed" autoplay muted playsinline></video>
+                <div class="camera-fallback">Camera nog niet actief</div>
+                <div class="scan-line"></div>
+                <div class="scan-lens" aria-hidden="true"></div>
+                <div class="sigil" aria-hidden="true">N</div>
+                <button class="hidden-sigil" type="button" aria-label="Verborgen zegel activeren">N</button>
+                <div class="house-reveal">
+                  <span class="house-reveal-symbol">N</span>
+                  <strong class="house-reveal-name">Nevermore</strong>
+                  <small class="house-reveal-copy">Waar stilte harder spreekt.</small>
+                </div>
+                <span class="scan-status">Klik op start, geef camera toestemming en zoek het zegel...</span>
+              </div>
+              <ol class="scan-steps">
+                <li>Geef camera toestemming</li>
+                <li>Zoek langzaam tot het zegel oplicht</li>
+                <li>Ontdek voor welk huis jij in aanmerking komt</li>
+              </ol>
+              <div class="scan-dashboard" aria-label="Scanstatus">
+                <div>
+                  <span class="dashboard-label">Afstand tot zegel</span>
+                  <strong class="distance-readout">Onbekend</strong>
+                </div>
+                <div class="signal-meter" aria-hidden="true"><span></span></div>
+              </div>
+              <div class="actions centered-actions">
+                <button class="button primary" id="scanButton">Start camera en scan</button>
+                <button class="button ghost next-step" data-next="hint">AR werkt niet</button>
+              </div>
+            </div>
+            <img class="scan-side right" src="assets/ref-scan-right.png" alt="" aria-hidden="true" />
+          </div>
+        </div>
+
+        <div class="route-panel" id="panel-hint">
+          <article class="hint ornate-box">
+            <h3>Alternatieve hint</h3>
+            <p>Geen AR? Geen probleem. Sommige geheimen tonen zich liever zonder scherm.</p>
+            <blockquote>
+              Zoek waar maanlicht goud raakt. Het zegel opent alleen voor wie durft te blijven kijken.
+            </blockquote>
+            <div class="actions">
+              <button class="button ghost next-step" data-next="intro">Terug naar route</button>
+              <button class="button primary next-step" data-next="result">Verder zonder AR</button>
+            </div>
+          </article>
+        </div>
+
+        <div class="route-panel" id="panel-result">
+          <article class="result ornate-box">
+            <span class="crest">N</span>
+            <h3>Uitnodiging ontvangen</h3>
+            <p class="result-copy">Het verborgen symbool is gevonden. Nevermore heeft jouw aanwezigheid opgemerkt.</p>
+            <a class="button primary" href="#aanmelden">Ga naar aanmelden</a>
+          </article>
+        </div>
+      </section>
+
+      <section id="aanmelden" class="signup page-frame">
+        <form class="signup-form">
+          <button class="back-link next-step" type="button" data-next="result">← Terug naar toelatingsresultaat</button>
+          <h2>Aanmelden bij Nevermore Academy</h2>
+          <div class="rule centered"></div>
+          <p>Vul je gegevens in en zet de laatste stap. Vanaf hier begint iets dat je niet meer loslaat.</p>
+          <label>
+            Naam
+            <input type="text" name="name" required />
+          </label>
+          <label>
+            E-mail
+            <input type="email" name="email" required />
+          </label>
+          <label>
+            Studentenhuis
+            <select name="talent" required>
+              <option value="">Selecteer je studentenhuis</option>
+              <option>Nevermore</option>
+              <option>Noctis</option>
+              <option>Umbra</option>
+              <option>Ignis</option>
+            </select>
+          </label>
+          <label>
+            Motivatie
+            <textarea name="message" rows="4" placeholder="Vertel ons wat jou drijft en waarom Nevermore jouw thuis moet worden."></textarea>
+          </label>
+          <button class="button primary" type="submit">Aanmelden</button>
+          <p class="form-message" role="status"></p>
+          <a class="home-link" href="#home">Terug naar homepage</a>
+        </form>
+      </section>
+    </main>
+  </body>
+</html>
