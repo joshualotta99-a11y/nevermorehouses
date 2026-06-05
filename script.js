@@ -121,9 +121,14 @@ const scanAim = {
   y: 50,
 };
 const CLICK_HIT_RADIUS = 58;
+const MOON_LOCK_POSITION = {
+  x: 50,
+  y: 48,
+};
 let scanFound = false;
 let scanStarted = false;
 let moonReady = false;
+let moonAcquired = false;
 let moonRevealTimer = null;
 let cameraStream = null;
 let orientationStarted = false;
@@ -151,6 +156,13 @@ function setScannerMoonScreenPosition(x, y) {
 }
 
 function updateMoonScreenPosition() {
+  if (moonAcquired) {
+    setScannerMoonScreenPosition(MOON_LOCK_POSITION.x, MOON_LOCK_POSITION.y);
+    return {
+      ...MOON_LOCK_POSITION,
+    };
+  }
+
   const screenX = 50 + (sigilPosition.x - cameraView.x);
   const screenY = 50 + (sigilPosition.y - cameraView.y);
   setScannerMoonScreenPosition(screenX, screenY);
@@ -204,6 +216,7 @@ function resetMoonScan() {
   scanFound = false;
   scanStarted = false;
   moonReady = false;
+  moonAcquired = false;
   orientationOrigin = null;
   cameraView.x = 50;
   cameraView.y = 50;
@@ -226,6 +239,7 @@ function resetMoonScan() {
 function scheduleNoctisMoonReveal() {
   clearTimeout(moonRevealTimer);
   moonReady = false;
+  moonAcquired = false;
   scanner.classList.remove("moon-ready", "moon-visible", "is-near", "is-hot", "is-found");
   scanner.classList.add("moon-loading");
   randomizeMoonPosition();
@@ -436,14 +450,26 @@ function updateSearchFeedback() {
     return;
   }
 
-  const isVisible =
+  const isNearView =
     moonScreenPosition.x > -6 &&
     moonScreenPosition.x < 106 &&
     moonScreenPosition.y > -6 &&
     moonScreenPosition.y < 106;
+  const isCenteredEnough =
+    moonScreenPosition.x > 24 &&
+    moonScreenPosition.x < 76 &&
+    moonScreenPosition.y > 24 &&
+    moonScreenPosition.y < 76;
+
+  if (!moonAcquired && isCenteredEnough) {
+    moonAcquired = true;
+    setScannerMoonScreenPosition(MOON_LOCK_POSITION.x, MOON_LOCK_POSITION.y);
+  }
+
+  const isVisible = moonAcquired;
   const distanceToAim = Math.hypot(moonScreenPosition.x - scanAim.x, moonScreenPosition.y - scanAim.y);
   const distanceToCenter = Math.hypot(moonScreenPosition.x - 50, moonScreenPosition.y - 50);
-  const strength = isVisible
+  const strength = isNearView
     ? Math.max(12, Math.round(100 - Math.min(distanceToAim, distanceToCenter) * 2.4))
     : Math.max(0, Math.round(18 - Math.min(Math.abs(moonScreenPosition.x - 50), Math.abs(moonScreenPosition.y - 50)) * 0.15));
 
@@ -453,9 +479,15 @@ function updateSearchFeedback() {
   scanner.classList.toggle("is-near", isVisible && distanceToCenter < 36);
   scanner.classList.toggle("is-hot", isVisible && distanceToAim < CLICK_HIT_RADIUS);
 
-  if (!isVisible) {
+  if (!isNearView) {
     distanceReadout.textContent = "Buiten beeld";
     scanStatus.textContent = "De maan is dichtbij. Draai langzaam naar links of rechts tot ze in beeld komt.";
+    return;
+  }
+
+  if (!isVisible) {
+    distanceReadout.textContent = "Bijna";
+    scanStatus.textContent = "Je bent dichtbij. Draai nog iets verder tot de maan volledig in beeld komt.";
     return;
   }
 
@@ -479,6 +511,7 @@ function revealSigil() {
   updateHouseOutcome();
   clearTimeout(moonRevealTimer);
   moonReady = true;
+  moonAcquired = true;
   scanFound = true;
   scanner.classList.add("is-found", "is-hot");
   scanner.classList.remove("is-searching", "moon-loading");
@@ -513,6 +546,7 @@ scanButton.addEventListener("click", async () => {
   scanStarted = true;
   scanFound = false;
   moonReady = false;
+  moonAcquired = false;
   orientationOrigin = null;
   forceNoctisOutcome();
   updateHouseOutcome();

@@ -974,8 +974,8 @@ p {
   display: none;
 }
 
-.scanner.moon-ready .noctis-moon-model,
-.scanner.moon-ready .moon-fallback,
+.scanner.moon-visible .noctis-moon-model,
+.scanner.moon-visible .moon-fallback,
 .scanner.is-found .noctis-moon-model,
 .scanner.is-found .moon-fallback {
   opacity: 1;
@@ -1009,7 +1009,7 @@ p {
   -webkit-user-drag: none;
 }
 
-.scanner.moon-ready .hidden-sigil {
+.scanner.moon-visible .hidden-sigil {
   display: grid;
 }
 
