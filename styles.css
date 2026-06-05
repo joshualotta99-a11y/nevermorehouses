@@ -934,13 +934,13 @@ p {
   left: var(--moon-x, 64%);
   top: var(--moon-y, 38%);
   z-index: 5;
-  width: clamp(132px, 42%, 190px);
-  height: clamp(132px, 42%, 190px);
+  width: clamp(150px, 48%, 220px);
+  height: clamp(150px, 48%, 220px);
   opacity: 0;
   user-select: none;
   pointer-events: none;
   -webkit-user-drag: none;
-  filter: drop-shadow(0 0 28px rgba(200, 148, 61, 0.52));
+  filter: drop-shadow(0 0 34px rgba(200, 148, 61, 0.62));
   transform: translate(-50%, -50%) scale(0.62);
   transition: opacity 420ms ease, transform 520ms ease;
 }
@@ -994,8 +994,8 @@ p {
   z-index: 6;
   display: none;
   place-items: center;
-  width: clamp(220px, 62%, 320px);
-  height: clamp(220px, 62%, 320px);
+  width: clamp(240px, 68%, 360px);
+  height: clamp(240px, 68%, 360px);
   border: 1px solid transparent;
   border-radius: 50%;
   color: rgba(200, 148, 61, 0);

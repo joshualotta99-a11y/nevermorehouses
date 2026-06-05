@@ -120,7 +120,7 @@ const scanAim = {
   x: 50,
   y: 50,
 };
-const CLICK_HIT_RADIUS = 46;
+const CLICK_HIT_RADIUS = 58;
 let scanFound = false;
 let scanStarted = false;
 let moonReady = false;
@@ -161,9 +161,9 @@ function updateMoonScreenPosition() {
 }
 
 function randomizeMoonPosition() {
-  const side = Math.floor(Math.random() * 4);
-  const edge = Math.round(103 + Math.random() * 7);
-  const inner = Math.round(38 + Math.random() * 24);
+  const side = Math.random() < 0.5 ? 0 : 1;
+  const edge = Math.round(96 + Math.random() * 5);
+  const inner = Math.round(42 + Math.random() * 16);
 
   if (side === 0) {
     sigilPosition.x = 100 - edge;
@@ -171,12 +171,6 @@ function randomizeMoonPosition() {
   } else if (side === 1) {
     sigilPosition.x = edge;
     sigilPosition.y = inner;
-  } else if (side === 2) {
-    sigilPosition.x = inner;
-    sigilPosition.y = 100 - edge;
-  } else {
-    sigilPosition.x = inner;
-    sigilPosition.y = edge;
   }
 
   cameraView.x = 50;
@@ -238,7 +232,7 @@ function scheduleNoctisMoonReveal() {
   distanceReadout.textContent = "Maan laadt";
   scanStatus.textContent = "Kijk rustig om je heen. De Noctis-maan wordt in de omgeving geplaatst...";
   if (arNotice) {
-    arNotice.textContent = "Kijk alvast langzaam rond. De maan is er straks, maar niet meteen recht voor je.";
+    arNotice.textContent = "Kijk alvast rustig rond. De maan staat straks dichtbij, maar net buiten je eerste blik.";
   }
 
   moonRevealTimer = setTimeout(() => {
@@ -247,7 +241,7 @@ function scheduleNoctisMoonReveal() {
     scanner.classList.add("moon-ready");
     updateSearchFeedback();
     if (arNotice) {
-      arNotice.textContent = "De Noctis-maan is geladen, maar niet recht voor je. Kijk om je heen tot je haar tegenkomt.";
+      arNotice.textContent = "De Noctis-maan is geladen. Draai langzaam naar links of rechts tot je haar tegenkomt.";
     }
   }, 7000);
 }
@@ -337,9 +331,9 @@ async function startCamera() {
     cameraFeed.playsInline = true;
     await cameraFeed.play();
     scanner.classList.add("has-camera");
-    scanStatus.textContent = "Camera actief. Kijk langzaam om je heen tot de Noctis-maan verschijnt";
+    scanStatus.textContent = "Camera actief. Draai langzaam naar links of rechts tot de Noctis-maan verschijnt";
     if (arNotice) {
-      arNotice.textContent = "Camera actief. Blijf rondkijken: de 3D Noctis-maan laadt nu in.";
+      arNotice.textContent = "Camera actief. Blijf rustig draaien: de 3D Noctis-maan laadt nu in.";
     }
     return true;
   } catch (error) {
@@ -413,10 +407,10 @@ function handleDeviceOrientation(event) {
       ? shortestAngleDelta(alpha, orientationOrigin.alpha)
       : gamma - orientationOrigin.gamma;
   const pitchDelta = beta - orientationOrigin.beta;
-  const targetX = 50 + clampNumber(yawDelta * 1.35, -92, 92);
-  const targetY = 50 + clampNumber(pitchDelta * 1.05, -86, 86);
-  const smoothX = cameraView.x + (targetX - cameraView.x) * 0.28;
-  const smoothY = cameraView.y + (targetY - cameraView.y) * 0.24;
+  const targetX = 50 + clampNumber(yawDelta * 1.9, -92, 92);
+  const targetY = 50 + clampNumber(pitchDelta * 1.35, -86, 86);
+  const smoothX = cameraView.x + (targetX - cameraView.x) * 0.34;
+  const smoothY = cameraView.y + (targetY - cameraView.y) * 0.3;
   setCameraView(smoothX, smoothY, 50, 50);
 }
 
@@ -443,10 +437,10 @@ function updateSearchFeedback() {
   }
 
   const isVisible =
-    moonScreenPosition.x > 7 &&
-    moonScreenPosition.x < 93 &&
-    moonScreenPosition.y > 7 &&
-    moonScreenPosition.y < 93;
+    moonScreenPosition.x > -6 &&
+    moonScreenPosition.x < 106 &&
+    moonScreenPosition.y > -6 &&
+    moonScreenPosition.y < 106;
   const distanceToAim = Math.hypot(moonScreenPosition.x - scanAim.x, moonScreenPosition.y - scanAim.y);
   const distanceToCenter = Math.hypot(moonScreenPosition.x - 50, moonScreenPosition.y - 50);
   const strength = isVisible
@@ -461,7 +455,7 @@ function updateSearchFeedback() {
 
   if (!isVisible) {
     distanceReadout.textContent = "Buiten beeld";
-    scanStatus.textContent = "De maan is geladen, maar nog niet in beeld. Kijk langzaam verder om je heen.";
+    scanStatus.textContent = "De maan is dichtbij. Draai langzaam naar links of rechts tot ze in beeld komt.";
     return;
   }
 
